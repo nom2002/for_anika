@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        height: 100vh;
+    }
+
+    #intro, #mainContent {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    #intro h1, #mainContent h1 {
+        margin-top: 35vh;
+        font-size: 2.5rem;
+        color: white;
+        z-index: 2;
+        position: relative;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        position: absolute;
+        transition: 0.2s;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+        left: 30%;
+        top: 60%;
+    }
+
+    #noBtn {
+        background: gray;
+        color: white;
+        left: 55%;
+        top: 60%;
+    }
+
+    .heart {
+        position: fixed;
+        top: -10px;
+        color: red;
+        font-size: 20px;
+        animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+    }
+
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        top: 0;
+        animation: confettiFall linear forwards;
+        z-index: 9999;
+    }
+
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Intro Screen -->
+<div id="intro">
+    <h1>Hold on… something special for Anika 💖</h1>
+</div>
+
+<!-- Main Valentine Content -->
+<div id="mainContent" style="display:none;">
+    <h1>Will You Be My Valentine? 💖</h1>
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+// Falling hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+
+// Start hearts after main content appears
+setInterval(() => {
+    if (document.getElementById("mainContent").style.display !== "none") {
+        createHeart();
+    }
+}, 300);
+
+// No button dodges
+noBtn?.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * 80 + "vw";
+    noBtn.style.top = Math.random() * 80 + "vh";
+});
+
+// Confetti effect
+function createConfetti() {
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+
+// Yes clicked
+yesBtn?.addEventListener("click", () => {
+    document.body.innerHTML = `
+        <h1 style="margin-top:30vh;color:white;">
+            YAYYYYY 😍💘<br>
+            You just made me the happiest person alive!
+        </h1>
+    `;
+    createConfetti();
+});
+
+// Show main content after 3 seconds
+setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}, 3000);
+</script>
+
+</body>
+</html>
